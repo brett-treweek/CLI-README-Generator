@@ -1,4 +1,11 @@
 var inquirer = require('inquirer');
+const fs = require('fs');
+
+const mit = '![AUR license](https://img.shields.io/static/v1?label=License&message=MIT&color=blue)';
+const apache = '![AUR license](https://img.shields.io/static/v1?label=License&message=Apache&color=blue)';
+const gnu2 = '![AUR license](https://img.shields.io/static/v1?label=License&message=GNU-2.0&color=blue)';
+const gnu3 = '![AUR license](https://img.shields.io/static/v1?label=License&message=GNU-3.0&color=blue)';
+const none = '![AUR license](https://img.shields.io/static/v1?label=License&message=none&color=red)';
 
 const questions = [
   {
@@ -9,8 +16,15 @@ const questions = [
   },
   {
       type: 'input',
+      name: 'Username',
+      message: 'What is your Github username?',
+      default: 'brett-treweek',
+  },
+  {
+      type: 'input',
       name: 'Title',
       message: 'What is the Title?',
+      default: 'This is my Title',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter a valid title'
@@ -21,7 +35,8 @@ const questions = [
   {
       type: 'input',
       name: 'Description',
-      message: 'Please add a Description of your project.',
+      message: 'Provide a short description.',
+      default: 'This is my default Description',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter a valid Description'
@@ -32,7 +47,8 @@ const questions = [
   {
       type: 'input',
       name: 'Installation',
-      message: 'Please add Installation Instructions.',
+      message: 'What are the steps required to install your project?',
+      default: 'Install npm and All the other things',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter valid Instructions'
@@ -43,7 +59,8 @@ const questions = [
   {
       type: 'input',
       name: 'Usage',
-      message: 'Please add Usage Instructions.',
+      message: 'Provide Instructions and examples for use.',
+      default: 'Never use this application',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter valid Instructions'
@@ -63,6 +80,7 @@ const questions = [
       type: 'input',
       name: 'Contributing',
       message: 'Please add Contributing Instructions.',
+      default: 'Never even think about contributing to this app',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter valid Instructions'
@@ -74,26 +92,25 @@ const questions = [
       type: 'input',
       name: 'Tests',
       message: 'Please add Tests Instructions.',
-      validate: (answer) => {
-          if(answer=== ''){
-              return 'Please enter valid Instructions'
-          }
-          return true
-      }
+      default: 'There are no tests at present.'
+      
   },
   {
       type: 'input',
       name: 'Support',
-      message: 'Please add Support Instructions.',
+      message: 'Please add Support email address',
+      default: 'bretttrew@gmail.com',
       validate: (answer) => {
           if(answer=== ''){
-              return 'Please enter valid Instructions'
+              return 'Please enter valid email address'
           }
           return true
       }
-  },
+  }
   
 ]
+
+
 
 console.log('------------------Readme Generator--------------------')
 
@@ -101,12 +118,67 @@ inquirer
   .prompt(questions)
   .then(answers => {
     // Use user feedback for... whatever!!
+
+    const readmeFramework =
+
+`# ${answers.Title}\n
+${answers.License}\n
+## Description\n
+[GitHub](https://github.com/${answers.Username})\n
+${answers.Description}\n
+## Table of Contents\n
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Support](#support)\n
+## Installation\n
+Please follow these steps to install the project and any dependancies.\n
+${answers.Installation}
+## Usage\n
+${answers.Usage}\n
+## License\n
+This project is licensed under ${answers.License}\n
+## Contributing\n
+${answers.Contributing}\n
+For any questions and support please contact ${answers.Author} at ${answers.Support} or message me through [GitHub](https://github.com/${answers.Username}).\n
+## Tests\n
+Please use these commands to perform tests.\n
+${answers.Tests}\n
+## Support\n
+For any questions and support please contact ${answers.Author} at ${answers.Support} or message me through [GitHub](https://github.com/${answers.Username}).`
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    fs.writeFile('generatedReadme.md', readmeFramework, (err) =>
+    err ? console.error(err) : console.log('Success!')
+    );
     console.log(answers)
+    console.log(answers.Title)
   })
-  // .catch(error => {
-  //   if(error.isTtyError) {
-  //     // Prompt couldn't be rendered in the current environment
-  //   } else {
-  //     // Something else went wrong
-  //   }
-  // });
+  .catch(error => {
+    if(error.isTtyError) {
+      console.log('Prompt couldnt be rendered in the current environment')
+    } else {
+      console.log('Something else went wrong')
+    }
+  });
