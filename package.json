@@ -1,0 +1,14 @@
+{
+  "name": "readme_generator",
+  "version": "1.0.0",
+  "description": "cli readme generator",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Brett Treweek",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^8.0.0"
+  }
+}
