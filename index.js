@@ -69,6 +69,18 @@ const questions = [
       }
   },
   {
+      type: 'input',
+      name: 'Screenshot',
+      message: 'Provide file name of screenshot',
+      default: 'screenshot.PNG',
+      validate: (answer) => {
+          if(answer=== ''){
+              return 'Please enter valid screenshot'
+          }
+          return true
+      }
+  },
+  {
       type: 'list',
       name: 'License',
       message: 'Please choose a License.',
@@ -124,7 +136,6 @@ inquirer
 `# ${answers.Title}\n
 ${answers.License}\n
 ## Description\n
-[GitHub](https://github.com/${answers.Username})\n
 ${answers.Description}\n
 ## Table of Contents\n
 - [Installation](#installation)
@@ -132,21 +143,26 @@ ${answers.Description}\n
 - [License](#license)
 - [Contributing](#contributing)
 - [Tests](#tests)
-- [Support](#support)\n
+- [Questions](#questions)\n
 ## Installation\n
 Please follow these steps to install the project and any dependancies.\n
-${answers.Installation}
+\`\`\`bash\n
+${answers.Installation}\n
+\`\`\`\n
 ## Usage\n
+![alt text](Assets/Images/${answers.Screenshot})\n
 ${answers.Usage}\n
 ## License\n
 This project is licensed under ${answers.License}\n
 ## Contributing\n
 ${answers.Contributing}\n
-For any questions and support please contact ${answers.Author} at ${answers.Support} or message me through [GitHub](https://github.com/${answers.Username}).\n
+You can contribute to this project at [GitHub](https://github.com/${answers.Username}).\n
 ## Tests\n
 Please use these commands to perform tests.\n
+\`\`\`bash\n
 ${answers.Tests}\n
-## Support\n
+\`\`\`\n
+## Questions\n
 For any questions and support please contact ${answers.Author} at ${answers.Support} or message me through [GitHub](https://github.com/${answers.Username}).`
     
 
