@@ -131,12 +131,27 @@ inquirer
   .then(answers => {
     // Use user feedback for... whatever!!
 
-    const readmeFramework =
+    if(answers.License === 'MIT'){
+        licenseLogo = mit
+    }else if (answers.License === 'GNU 2.0'){
+        licenseLogo = gnu2
+    }else if(answers.License === 'GNU 3.0'){
+        licenseLogo = gnu3
+    }else if(answers.License === 'Apache 2.0'){
+        licenseLogo = apache
+    }else{
+        licenseLogo = none
+    }
 
+
+
+
+const readmeFramework =
 `# ${answers.Title}\n
-${answers.License}\n
+${licenseLogo}\n
 ## Description\n
 ${answers.Description}\n
+---
 ## Table of Contents\n
 - [Installation](#installation)
 - [Usage](#usage)
@@ -144,24 +159,28 @@ ${answers.Description}\n
 - [Contributing](#contributing)
 - [Tests](#tests)
 - [Questions](#questions)\n
+---
 ## Installation\n
 Please follow these steps to install the project and any dependancies.\n
-\`\`\`bash\n
-${answers.Installation}\n
-\`\`\`\n
+    ${answers.Installation}\n
+---
 ## Usage\n
 ![alt text](Assets/Images/${answers.Screenshot})\n
 ${answers.Usage}\n
+---
 ## License\n
-This project is licensed under ${answers.License}\n
+This project is licensed under ${licenseLogo}\n
+---
 ## Contributing\n
 ${answers.Contributing}\n
-You can contribute to this project at [GitHub](https://github.com/${answers.Username}).\n
+You can contribute to this project at [GitHub](https://github.com/${answers.Username}/CLI-README-Generator)\n
+---
 ## Tests\n
 Please use these commands to perform tests.\n
 \`\`\`bash\n
 ${answers.Tests}\n
 \`\`\`\n
+---
 ## Questions\n
 For any questions and support please contact ${answers.Author} at ${answers.Support} or message me through [GitHub](https://github.com/${answers.Username}).`
     
