@@ -185,7 +185,7 @@ For any questions and support please contact ${answers.Author} at ${answers.Supp
     
 
 // -----------------Function to create Readme and catch errors--------------------
-    fs.writeFile('README.md', readmeFramework, (err) =>
+    fs.writeFile('proREADME.md', readmeFramework, (err) =>
     err ? console.error(err) : console.log('Success!')
     );
     console.log(answers)
