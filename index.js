@@ -1,12 +1,15 @@
-var inquirer = require('inquirer');
+// ---------------Required Modules--------------------------
+const inquirer = require('inquirer');
 const fs = require('fs');
 
+// --------------License Logo link Variables-----------------
 const mit = '![AUR license](https://img.shields.io/static/v1?label=License&message=MIT&color=blue)';
 const apache = '![AUR license](https://img.shields.io/static/v1?label=License&message=Apache&color=blue)';
 const gnu2 = '![AUR license](https://img.shields.io/static/v1?label=License&message=GNU-2.0&color=blue)';
 const gnu3 = '![AUR license](https://img.shields.io/static/v1?label=License&message=GNU-3.0&color=blue)';
 const none = '![AUR license](https://img.shields.io/static/v1?label=License&message=none&color=red)';
 
+// ---------------------Questions Array----------------------
 const questions = [
   {
       type: 'input',
@@ -23,8 +26,8 @@ const questions = [
   {
       type: 'input',
       name: 'Title',
-      message: 'What is the Title?',
-      default: 'This is my Title',
+      message: 'What is the title of this project?',
+      default: 'CLI Readme Generator',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter a valid title'
@@ -33,10 +36,9 @@ const questions = [
       }
   },
   {
-      type: 'input',
+      type: 'editor',
       name: 'Description',
-      message: 'Provide a short description.',
-      default: 'This is my default Description',
+      message: 'Provide a short description of this project.',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter a valid Description'
@@ -47,8 +49,8 @@ const questions = [
   {
       type: 'input',
       name: 'Installation',
-      message: 'What are the steps required to install your project?',
-      default: 'Install npm and All the other things',
+      message: 'What are the steps required to install this project?',
+      default: 'install node.js\ninstall npm\ninstall inquirer\n',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter valid Instructions'
@@ -57,10 +59,9 @@ const questions = [
       }
   },
   {
-      type: 'input',
+      type: 'editor',
       name: 'Usage',
       message: 'Provide Instructions and examples for use.',
-      default: 'Never use this application',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter valid Instructions'
@@ -92,7 +93,7 @@ const questions = [
       type: 'input',
       name: 'Contributing',
       message: 'Please add Contributing Instructions.',
-      default: 'Never even think about contributing to this app',
+      default: 'Contributing to this project is welcome.',
       validate: (answer) => {
           if(answer=== ''){
               return 'Please enter valid Instructions'
@@ -122,15 +123,13 @@ const questions = [
   
 ]
 
-
-
 console.log('------------------Readme Generator--------------------')
 
 inquirer
   .prompt(questions)
   .then(answers => {
-    // Use user feedback for... whatever!!
-
+   
+// -----------------License Logo If Statement-------------------------
     if(answers.License === 'MIT'){
         licenseLogo = mit
     }else if (answers.License === 'GNU 2.0'){
@@ -143,9 +142,7 @@ inquirer
         licenseLogo = none
     }
 
-
-
-
+// --------------------Markdown Template-----------------------------
 const readmeFramework =
 `# ${answers.Title}\n
 ${licenseLogo}\n
@@ -162,11 +159,13 @@ ${answers.Description}\n
 ---
 ## Installation\n
 Please follow these steps to install the project and any dependancies.\n
-    ${answers.Installation}\n
+\`\`\`bash
+${answers.Installation}\n
+\`\`\`\n
 ---
 ## Usage\n
-![alt text](Assets/Images/${answers.Screenshot})\n
 ${answers.Usage}\n
+![alt text](Assets/Images/${answers.Screenshot})\n
 ---
 ## License\n
 This project is licensed under ${licenseLogo}\n
@@ -185,26 +184,8 @@ ${answers.Tests}\n
 For any questions and support please contact ${answers.Author} at ${answers.Support} or message me through [GitHub](https://github.com/${answers.Username}).`
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    fs.writeFile('generatedReadme.md', readmeFramework, (err) =>
+// -----------------Function to create Readme and catch errors--------------------
+    fs.writeFile('README.md', readmeFramework, (err) =>
     err ? console.error(err) : console.log('Success!')
     );
     console.log(answers)
